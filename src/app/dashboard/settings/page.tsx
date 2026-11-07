@@ -1,0 +1,1 @@
+export default function Settings(){return <><p className="eyebrow">Settings</p><h1 className="font-display mt-2 text-5xl">Your account.</h1><div className="card mt-8 p-7"><p className="text-[#777b61]">Profile changes and password security remain managed through your authenticated Supabase account.</p></div></>}

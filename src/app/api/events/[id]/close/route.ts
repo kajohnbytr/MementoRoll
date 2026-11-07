@@ -1,0 +1,2 @@
+import { getUser } from "@/lib/auth"; import { ok,problem } from "@/lib/api"; import { createSupabaseServerClient } from "@/lib/supabase/server";
+export async function POST(_:Request,{params}:{params:Promise<{id:string}>}){if(!await getUser())return problem(401,"unauthorized","Authentication required");const{id}=await params;const{data,error}=await(await createSupabaseServerClient()).from("events").update({status:"closed",updated_at:new Date().toISOString()}).eq("id",id).select("id,status").single();return error?problem(404,"event_not_found","Event not found"):ok(data);}

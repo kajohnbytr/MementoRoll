@@ -1,0 +1,4 @@
+import { ok, problem } from "@/lib/api";
+import { hashOpaqueToken } from "@/lib/security/tokens";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+export async function GET(_:Request,{params}:{params:Promise<{token:string}>}) { const {token}=await params; if(token.length<20)return problem(404,"event_not_found","This event link is invalid"); const {data}=await createSupabaseAdminClient().from("events").select("title,event_date,location_name,status,opens_at,closes_at").eq("public_token_hash",hashOpaqueToken(token)).single(); if(!data)return problem(404,"event_not_found","This event link is invalid"); const now=Date.now(); const availability=data.status!=="active"?data.status:new Date(data.opens_at).getTime()>now?"upcoming":new Date(data.closes_at).getTime()<now?"expired":"active"; return ok({...data,availability}); }

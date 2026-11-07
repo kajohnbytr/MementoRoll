@@ -1,0 +1,1 @@
+export default function Storage(){return <><p className="eyebrow">Storage</p><h1 className="font-display mt-2 text-5xl">Space for every frame.</h1><div className="card mt-8 p-7"><p className="text-[#777b61]">Storage is allocated per event package. Open an event to see used, reserved, and available capacity with 80% and 95% warnings.</p></div></>}

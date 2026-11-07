@@ -1,0 +1,3 @@
+"use client";
+import { useRouter } from "next/navigation"; import { Play,Square } from "lucide-react";
+export function EventActions({id,status}:{id:string;status:string}){const router=useRouter();async function act(action:"activate"|"close"){const r=await fetch(`/api/events/${id}/${action}`,{method:"POST"});if(r.ok)router.refresh();}return <div className="flex gap-2">{status==="draft"&&<button onClick={()=>act("activate")} className="btn-primary"><Play aria-hidden="true" size={16}/>Activate</button>}{status==="active"&&<button onClick={()=>act("close")} className="btn-secondary"><Square aria-hidden="true" size={16}/>Close event</button>}</div>}
