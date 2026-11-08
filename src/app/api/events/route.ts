@@ -3,6 +3,7 @@ import { ok, parseJson, problem } from "@/lib/api";
 import { eventInput } from "@/lib/validation";
 import { hashOpaqueToken, hashPin, randomPin, randomToken } from "@/lib/security/tokens";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { env } from "@/lib/env";
 
 export async function GET() {
   if (!await getUser()) return problem(401, "unauthorized", "Authentication required");
@@ -15,5 +16,6 @@ export async function POST(request: Request) {
   const token = randomToken(); const pin = randomPin();
   const { data, error } = await (await createSupabaseServerClient()).rpc("create_event_from_order", { p_order_id: parsed.data.orderId, p_title: parsed.data.title, p_description: parsed.data.description ?? null, p_event_date: parsed.data.eventDate, p_location_name: parsed.data.locationName ?? null, p_token_hash: hashOpaqueToken(token), p_pin_hash: await hashPin(pin), p_opens_at: parsed.data.opensAt, p_closes_at: parsed.data.closesAt });
   if (error) return problem(error.message.includes("entitlement_unavailable") ? 409 : 500, "event_creation_failed", error.message.includes("entitlement_unavailable") ? "That package entitlement is no longer available" : "Event creation failed");
-  return ok({ id: data, accessUrl: `/e/${token}`, pin }, { status: 201 });
+  const accessUrl = new URL(`/e/${token}`, env().NEXT_PUBLIC_APP_URL).toString();
+  return ok({ id: data, accessUrl, pin }, { status: 201 });
 }

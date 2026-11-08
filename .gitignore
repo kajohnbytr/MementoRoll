@@ -9,4 +9,6 @@ test-results/
 .env.*.local
 !.env.example
 *.log
+*.tsbuildinfo
 .DS_Store
+MEMENTOROLL_SETUP_GUIDE.txt

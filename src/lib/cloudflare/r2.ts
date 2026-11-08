@@ -1,5 +1,5 @@
 import "server-only";
-import { GetObjectCommand, HeadObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectsCommand, GetObjectCommand, HeadObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { env } from "@/lib/env";
 
@@ -29,4 +29,12 @@ export async function getObjectBytes(key: string) {
 
 export async function putObjectBytes(key: string, bytes: Buffer, contentType: string) {
   return client().send(new PutObjectCommand({ Bucket: env().R2_BUCKET_NAME, Key: key, Body: bytes, ContentType: contentType, ContentLength: bytes.byteLength }));
+}
+
+export async function deleteObjectKeys(keys: string[]) {
+  const unique = [...new Set(keys.filter(Boolean))];
+  for (let index = 0; index < unique.length; index += 1000) {
+    const batch = unique.slice(index, index + 1000);
+    await client().send(new DeleteObjectsCommand({ Bucket: env().R2_BUCKET_NAME, Delete: { Objects: batch.map(Key => ({ Key })), Quiet: true } }));
+  }
 }

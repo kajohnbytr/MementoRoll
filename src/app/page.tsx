@@ -21,7 +21,7 @@ export default function Home() {
     <nav className="container-shell flex min-h-20 items-center justify-between" aria-label="Primary navigation">
       <Logo />
       <div className="hidden items-center gap-8 text-sm font-semibold md:flex"><a href="#how">How it works</a><a href="#features">Features</a><a href="#pricing">Pricing</a></div>
-      <div className="flex items-center gap-2"><Link className="hidden px-4 py-3 text-sm font-bold sm:block" href="/login">Log in</Link><Link className="btn-primary !min-h-11 !px-4 text-sm" href="/register">Create event <ArrowRight aria-hidden="true" size={16} /></Link></div>
+      <div className="flex items-center gap-1 sm:gap-2"><Link className="inline-flex min-h-11 items-center px-2 text-xs font-bold sm:px-4 sm:text-sm" href="/login">Log in</Link><Link className="btn-primary !min-h-11 !px-3 text-xs sm:!px-4 sm:text-sm" href="/register"><span className="sm:hidden">Create</span><span className="hidden sm:inline">Create event</span><ArrowRight aria-hidden="true" size={16} /></Link></div>
     </nav>
 
     <section className="container-shell grid min-h-[720px] items-center gap-12 py-16 lg:grid-cols-[.88fr_1.12fr] lg:py-24">
