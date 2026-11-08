@@ -155,9 +155,10 @@ Run these migrations in order with the Supabase CLI or SQL Editor:
 ```text
 supabase/migrations/202611080001_initial_schema.sql
 supabase/migrations/202611080002_event_deletion.sql
+supabase/migrations/202611080003_coupons.sql
 ```
 
-They install the schema, constraints, indexes, RLS policies, seed plans, atomic reservation functions, and owner-authorized deletion function.
+They install the schema, constraints, indexes, RLS policies, seed plans, atomic reservation functions, owner-authorized deletion, and server-enforced coupons.
 
 ### 4. Configure Supabase Auth
 
@@ -232,7 +233,7 @@ Database tests require a local Supabase CLI environment. Real R2 uploads, email 
 
 ## Development payments
 
-`TEST_PAYMENT_MODE=true` enables explicitly labeled development entitlements. Keep it `false` in production. A live integration must verify signed, idempotent webhooks before granting an entitlement and must handle failures and refunds.
+`TEST_PAYMENT_MODE=true` exposes one 100%-off development coupon per package and allows each account to redeem each code once. Keep it `false` in production. A live integration must verify signed, idempotent webhooks before granting paid entitlements and must handle failures and refunds.
 
 ## Deployment checklist
 

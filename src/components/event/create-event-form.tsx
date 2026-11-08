@@ -7,7 +7,15 @@ import { CalendarPlus, LoaderCircle } from "lucide-react";
 type Plan = { id: string; plans: { name: string; storage_quota_bytes: number } };
 export function CreateEventForm() {
   const router = useRouter(); const [plans, setPlans] = useState<Plan[]>([]); const [error, setError] = useState<string>(); const [loading, setLoading] = useState(false);
-  useEffect(() => { fetch("/api/orders?unused=1").then(r => r.json()).then(v => setPlans(v.data ?? [])).catch(() => setError("Could not load package entitlements.")); }, []);
+  useEffect(() => {
+    fetch("/api/orders?unused=1", { cache: "no-store" })
+      .then(async response => {
+        const body = await response.json();
+        if (!response.ok) throw new Error(body.error?.message ?? "Could not load package entitlements.");
+        setPlans(body.data ?? []);
+      })
+      .catch(cause => setError(cause instanceof Error ? cause.message : "Could not load package entitlements."));
+  }, []);
   async function submit(formData: FormData) {
     setLoading(true); setError(undefined);
     const payload = Object.fromEntries(formData);

@@ -12,3 +12,4 @@ test-results/
 *.tsbuildinfo
 .DS_Store
 MEMENTOROLL_SETUP_GUIDE.txt
+MEMENTOROLL_DEPLOYMENT_GUIDE.txt

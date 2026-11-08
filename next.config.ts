@@ -1,8 +1,11 @@
 import type { NextConfig } from "next";
 
+const configuredAppUrl = process.env.NEXT_PUBLIC_APP_URL;
+const developmentOrigin = configuredAppUrl ? new URL(configuredAppUrl).hostname : undefined;
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
-  allowedDevOrigins: ["collaborative-acquire-calendar-inquiry.trycloudflare.com"],
+  allowedDevOrigins: developmentOrigin ? [developmentOrigin] : [],
   experimental: { serverActions: { bodySizeLimit: "10mb" } },
   async headers() {
     return [{
